@@ -30,7 +30,20 @@
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow anchor="right" id="Liberty" icon="/icons/OL_logo_13.svg"
                     factoryClass="io.openliberty.tools.intellij.LibertyDevToolWindowFactory"/>
+        <preloadingActivity implementation="io.openliberty.tools.intellij.ls.LibertyPreloadingActivity" 
+                    id="io.ballerina.plugins.idea.preloading.BallerinaPreloadingActivity" />
+        <completion.contributor implementationClass="org.wso2.lsp4intellij.contributors.LSPCompletionContributor"
+                    id="LSPCompletionContributor" language="any"/>
+        <externalAnnotator id="LSPAnnotator" language="TEXT" implementationClass="org.wso2.lsp4intellij.contributors.annotator.LSPAnnotator"/>
+        <gotoSymbolContributor implementation="org.wso2.lsp4intellij.contributors.symbol.LSPSymbolContributor"
+                id="LSPSymbolContributor"/>
     </extensions>
+
+    <application-components>
+        <component>
+            <implementation-class>org.wso2.lsp4intellij.IntellijLanguageClient</implementation-class>
+        </component>
+    </application-components>
 
     <actions>
         <action id="io.openliberty.tools.intellij.actions.LibertyDevStartAction"
@@ -81,5 +94,9 @@
                 class="io.openliberty.tools.intellij.actions.RunLibertyDevTask" text="Run Liberty action"
                 description="Run the selected Liberty action" icon="AllIcons.Actions.Execute"/>
 
+        <action class="org.wso2.lsp4intellij.actions.LSPReformatAction" id="ReformatCode" use-shortcut-of="ReformatCode"
+                overrides="true" text="Reformat Code"/>
+        <action class="org.wso2.lsp4intellij.actions.LSPShowReformatDialogAction" id="ShowReformatFileDialog"
+                use-shortcut-of="ShowReformatFileDialog" overrides="true" text="Show Reformat File Dialog"/>
     </actions>
 </idea-plugin>
