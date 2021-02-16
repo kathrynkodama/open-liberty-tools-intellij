@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "de.undercouch.download" version "3.4.3"
     id 'org.jetbrains.intellij' version '0.6.5'
 }
 
@@ -12,14 +13,20 @@ repositories {
     mavenCentral()
     // lsp4intellij is not published to maven yet
     // See: https://github.com/ballerina-platform/lsp4intellij#1-add-the-lsp4intellij-dependency-in-the-build-file-of-the-project
-    maven { url 'https://jitpack.io' } 
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://repo.eclipse.org/content/repositories/lemminx-snapshots/'}
 
 }
 
 dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     implementation 'org.apache.maven:maven-artifact:3.6.3'
-    implementation 'com.github.ballerina-platform:lsp4intellij:0.94.2'
+//    implementation 'com.github.ballerina-platform:lsp4intellij:0.94.2'
+    implementation 'com.github.ballerina-platform:lsp4intellij:master-SNAPSHOT'
+
+    configurations.compile.exclude(group: 'org.slf4j', module: 'slf4j-api')
+    configurations.compile.exclude(group: 'com.google.guava', module: 'guava')
+    configurations.compile.exclude(group: 'xml-apis', module: 'xml-apis')
 }
 
 runIde {
@@ -28,7 +35,7 @@ runIde {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2019.3.3'
+    version '2020.1'
     updateSinceUntilBuild false
     plugins 'terminal'
 }
@@ -54,3 +61,19 @@ patchPluginXml {
         """
     version project.version
 }
+
+task downloadFile(type: Download) {
+    src 'https://repo.eclipse.org/content/repositories/lemminx-snapshots/org/eclipse/lemminx/org.eclipse.lemminx/0.15.1-SNAPSHOT/org.eclipse.lemminx-0.15.1-20210304.214339-8-uber.jar'
+    dest new File("${projectDir}/server/", "org.eclipse.lemminx-uber.jar")
+    overwrite true
+}
+
+// copies language server jars into sandbox directory
+tasks.getByName("prepareSandbox").doLast {
+    copy {
+        from "${projectDir}/server/org.eclipse.lemminx-uber.jar", "${projectDir}/server/lemminx-liberty-1.0-SNAPSHOT-jar-with-dependencies.jar"
+        into "${intellij.sandboxDirectory}/plugins/${intellij.pluginName}/lib"
+    }
+}
+
+runIde.dependsOn downloadFile

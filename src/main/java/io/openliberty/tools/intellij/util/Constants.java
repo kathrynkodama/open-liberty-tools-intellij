@@ -14,7 +14,7 @@ public final class Constants {
     public static final String LIBERTY_DEV_CUSTOM_START = "Start...";
     public static final String LIBERTY_DEV_START_CONTAINER = "Start in container";
     public static final String LIBERTY_DEV_STOP = "Stop";
-    public static final String LIBERTY_DEV_TESTS = "Run Tests";
+    public static final String LIBERTY_DEV_TESTS = "Run tests";
 
     // Maven
     public static final String VIEW_INTEGRATION_TEST_REPORT = "View integration test report";

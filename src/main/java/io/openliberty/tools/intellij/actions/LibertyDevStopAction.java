@@ -38,7 +38,7 @@ public class LibertyDevStopAction extends AnAction {
                     , "Liberty dev has not been started"
                     , ""
                     , "Liberty dev has not been started on " + projectName
-                    + ". \nStart liberty dev from the Liberty Dev Dashboard."
+                    + ". \nStart liberty dev from the Liberty tool window."
                     , NotificationType.WARNING
                     , NotificationListener.URL_OPENING_LISTENER);
             Notifications.Bus.notify(notif, project);
