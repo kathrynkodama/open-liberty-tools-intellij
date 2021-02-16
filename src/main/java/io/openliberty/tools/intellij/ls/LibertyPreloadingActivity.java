@@ -11,15 +11,19 @@ public class LibertyPreloadingActivity extends PreloadingActivity {
     @Override
     public void preload(ProgressIndicator indicator) {
 
-        String[] command = new String[] { "java", "-jar",
-                "/Users/rzegray/Developer/github.com/openliberty/open-liberty-tools-intellij/src/main/resources/org.eclipse.lemminx-uber.jar" };
-        // String[] command = new String[] { "java", "-cp",
-        // "/Users/rzegray/Developer/github.com/openliberty/open-liberty-tools-intellij/src/main/resources/org.eclipse.lemminx-uber.jar:/Users/rzegray/Developer/github.com/openliberty/open-liberty-tools-intellij/src/main/resources/lemminx-liberty-1.0-SNAPSHOT-jar-with-dependencies.jar
-        // org.eclipse.lemminx.XMLServerLauncher" };
+//        // Starts LemMinx with -jar
+//        String[] command = new String[] { "java", "-jar",
+//                "/Users/kathrynkodama/devex/extensions/open-liberty-tools-intellij/src/main/resources/org.eclipse.lemminx-uber.jar" };
 
-        // String[] command2 = new String[] { "java", "-cp",
-        // "/Users/rzegray/Developer/github.com/openliberty/open-liberty-tools-intellij/src/main/resources/org.eclipse.lemminx-uber.jar
-        // org.eclipse.lemminx.XMLServerLauncher" };
+//        // Starts just LemMinx with Classpath
+//        String[] command = new String[] { "java", "-cp",
+//                "/Users/kathrynkodama/devex/extensions/open-liberty-tools-intellij/src/main/resources/*:.", "org.eclipse.lemminx.XMLServerLauncher"};
+
+        // Starts LemMinx and adds Liberty LemMinx to the classpath
+        String[] command = new String[]{"java", "-cp",
+                "/Users/kathrynkodama/devex/extensions/open-liberty-tools-intellij/src/main/resources/org.eclipse.lemminx-uber.jar:/Users/kathrynkodama/devex/extensions/open-liberty-tools-intellij/src/main/resources/lemminx-liberty-1.0-SNAPSHOT-jar-with-dependencies.jar",
+                "org.eclipse.lemminx.XMLServerLauncher"};
+
         IntellijLanguageClient.addServerDefinition(new RawCommandServerDefinition("xml", command));
     }
 
