@@ -22,27 +22,33 @@
      </ul>
     ]]></description>
 
+    <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
 
-    <idea-version since-build="193"/>
+    <idea-version since-build="192"/>
 
     <extensions defaultExtensionNs="com.intellij">
+        <!--Enable diagnostics and code actions -->
+        <externalAnnotator implementationClass="org.wso2.lsp4intellij.contributors.annotator.LSPAnnotator"
+                           id="LSPAnnotator-xml" language="XML"/>
+        <!--Enable completion -->
+        <completion.contributor implementationClass="org.wso2.lsp4intellij.contributors.LSPCompletionContributor"
+                                id="LSPCompletionContributor" language="any"/>
+        <!-- Enable preloading activity (register LS) -->
+        <preloadingActivity implementation="io.openliberty.tools.intellij.ls.LibertyPreloadingActivity"
+                    id="io.ballerina.plugins.idea.preloading.BallerinaPreloadingActivity" />
+
+<!--        <gotoSymbolContributor implementation="org.wso2.lsp4intellij.contributors.symbol.LSPSymbolContributor"-->
+<!--                id="LSPSymbolContributor"/>-->
+<!--        <renameHandler implementation="org.wso2.lsp4intellij.contributors.rename.LSPRenameHandler" -->
+<!--        id="LSPRenameHandler" order="first"/>-->
+<!--        <renamePsiElementProcessor implementation="org.wso2.lsp4intellij.contributors.rename-->
+<!--                .LSPRenameProcessor" id="LSPRenameProcessor" order="first"/>-->
+<!--        <typedHandler implementation="org.wso2.lsp4intellij.listeners.LSPTypedHandler"-->
+<!--                id="LSPTypedHandler"/>-->
         <toolWindow anchor="right" id="Liberty Dev Dashboard" icon="/icons/OL_logo_13.svg"
                     factoryClass="io.openliberty.tools.intellij.LibertyDevToolWindowFactory"/>
-        <preloadingActivity implementation="io.openliberty.tools.intellij.ls.LibertyPreloadingActivity" 
-                    id="io.ballerina.plugins.idea.preloading.BallerinaPreloadingActivity" />
-        <completion.contributor implementationClass="org.wso2.lsp4intellij.contributors.LSPCompletionContributor"
-                    id="LSPCompletionContributor" language="any"/>
-        <externalAnnotator id="LSPAnnotator" language="TEXT" implementationClass="org.wso2.lsp4intellij.contributors.annotator.LSPAnnotator"/>
-        <gotoSymbolContributor implementation="org.wso2.lsp4intellij.contributors.symbol.LSPSymbolContributor"
-                id="LSPSymbolContributor"/>
-        <renameHandler implementation="org.wso2.lsp4intellij.contributors.rename.LSPRenameHandler" 
-        id="LSPRenameHandler" order="first"/>
-        <renamePsiElementProcessor implementation="org.wso2.lsp4intellij.contributors.rename
-                .LSPRenameProcessor" id="LSPRenameProcessor" order="first"/>
-        <typedHandler implementation="org.wso2.lsp4intellij.listeners.LSPTypedHandler"
-                id="LSPTypedHandler"/>
     </extensions>
 
     <application-components>
@@ -99,13 +105,5 @@
         <action id="io.openliberty.tools.intellij.actions.RunLibertyDevTask"
                 class="io.openliberty.tools.intellij.actions.RunLibertyDevTask" text="Run Liberty Dev Task"
                 description="Execute the selected liberty dev task" icon="AllIcons.Actions.Execute"/>
-
-        <action class="org.wso2.lsp4intellij.actions.LSPReformatAction" id="ReformatCode" use-shortcut-of="ReformatCode"
-                overrides="true" text="Reformat Code"/>
-        <action class="org.wso2.lsp4intellij.actions.LSPShowReformatDialogAction" id="ShowReformatFileDialog"
-                use-shortcut-of="ShowReformatFileDialog" overrides="true" text="Show Reformat File Dialog"/>
-        <action class="org.wso2.lsp4intellij.actions.LSPReferencesAction" id="LSPFindUsages">
-                <keyboard-shortcut first-keystroke="shift alt F7" keymap="$default"/>
-        </action>
     </actions>
 </idea-plugin>
